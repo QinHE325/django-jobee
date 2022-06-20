@@ -5,22 +5,25 @@ from rest_framework import status
 
 from django.contrib.auth.hashers import make_password
 
+from .validators import validate_file_extension
+
 from .serializers import SignUpSerializer, UserSerializer
 
 from rest_framework.permissions import IsAuthenticated
 
 from django.contrib.auth.models import User
 
+# Create your views here.
+
 @api_view(['POST'])
 def register(request):
-    print(request.data)
     data = request.data
 
     user = SignUpSerializer(data=data)
 
     if user.is_valid():
         if not User.objects.filter(username=data['email']).exists():
-            user = User.objects.create(
+           user = User.objects.create(
                first_name = data['first_name'],
                last_name = data['last_name'],
                username = data['email'],
@@ -28,7 +31,7 @@ def register(request):
                password = make_password(data['password'])
            ) 
 
-            return Response({
+           return Response({
                 'message': 'User registered.'},
                 status=status.HTTP_200_OK
             )
@@ -50,6 +53,7 @@ def currentUser(request):
 
     return Response(user.data)
 
+
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def updateUser(request):
@@ -68,4 +72,25 @@ def updateUser(request):
     user.save()
 
     serializer = UserSerializer(user, many=False)
+    return Response(serializer.data)
+
+@api_view(['PUT'])
+@permission_classes([IsAuthenticated])
+def uploadResume(request):
+
+    user = request.user
+    resume = request.FILES['resume']
+    if resume == '':
+        return Response({ 'error': 'Please upload your resume.' }, status=status.HTTP_400_BAD_REQUEST)
+
+    isValidFile = validate_file_extension(resume.name)
+
+    if not isValidFile:
+        return Response({ 'error': 'Please upload only pdf file.' }, status=status.HTTP_400_BAD_REQUEST)
+    
+    serializer = UserSerializer(user, many=False)
+
+    user.userprofile.resume = resume
+    user.userprofile.save()
+
     return Response(serializer.data)
