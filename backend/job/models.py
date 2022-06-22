@@ -78,15 +78,29 @@ class Job(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL,null=True)
     createdAt = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.title
+
     def save(self, *args, **kwars):
         g = geocoder.mapquest(self.address, key=os.environ.get('GEOCODER_API'))
         
-        print(g)
+        #print(g)
 
         lng = g.lng
         lat = g.lat
 
         self.point = Point(lng, lat)
         super(Job,self).save(*args, **kwars)
+    
+class CandidatesApplied(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    resume = models.CharField(max_length=200)
+    appliedAt = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return ' '.join([self.user.first_name, self.user.last_name])
+
+
 
 
