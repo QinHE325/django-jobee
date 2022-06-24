@@ -1,6 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
+import moment from "moment";
+import mapboxgl from "mapbox-gl/dist/mapbox-gl.js";
 
-const JobDetails = () => {
+
+mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN;
+
+
+
+const JobDetails = ({ job, candidates}) => {
+  useEffect( () => {
+    const cooridnates = job.point.split("(")[1].replace(")", "").split(" ");
+
+    // Create map and set the center point
+    const map = new mapboxgl.Map({
+      container: "job-map",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: cooridnates,
+      zoom: 10.5,
+    });
+
+    // add marker
+
+    new mapboxgl.Marker().setLngLat(cooridnates).addTo(map);
+    
+  }, []);
+
+  
   return (
     <div className="job-details-wrapper">
       <div className="container container-fluid">
@@ -8,14 +33,14 @@ const JobDetails = () => {
           <div className="col-xl-9 col-lg-8">
             <div className="job-details p-3">
               <div className="job-header p-4">
-                <h2>Java Developer Required</h2>
+                <h2>{job.title}</h2>
                 <span>
                   <i aria-hidden className="fas fa-building"></i>
-                  <span> Tech</span>
+                  <span> {job.company}</span>
                 </span>
                 <span className="ml-4">
                   <i aria-hidden className="fas fa-map-marker-alt"></i>
-                  <span> 721 Park Street</span>
+                  <span> {job.address}</span>
                 </span>
 
                 <div className="mt-3">
@@ -24,7 +49,7 @@ const JobDetails = () => {
                       Apply Now
                     </button>
                     <span className="ml-4 text-success">
-                      <b>3</b> candidates has applied to this job.
+                      <b>{candidates}</b> candidates has applied to this job.
                     </span>
                   </span>
                 </div>
@@ -33,14 +58,7 @@ const JobDetails = () => {
               <div className="job-description mt-5">
                 <h4>Description</h4>
                 <p>
-                  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                  irure dolor in reprehenderit in voluptate velit esse cillum
-                  dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-                  cupidatat non proident, sunt in culpa qui officia deserunt
-                  mollit anim id est laborum."
+                 {job.description}
                 </p>
               </div>
 
@@ -51,37 +69,37 @@ const JobDetails = () => {
                     <tr>
                       <td>Job Type</td>
                       <td>:</td>
-                      <td>Permanent</td>
+                      <td>{job.jobType}</td>
                     </tr>
 
                     <tr>
                       <td>Job Industry</td>
                       <td>:</td>
-                      <td>IT</td>
+                      <td>{job.industry}</td>
                     </tr>
 
                     <tr>
                       <td>Expected Salary</td>
                       <td>:</td>
-                      <td>$90000</td>
+                      <td>${job.salary}</td>
                     </tr>
 
                     <tr>
                       <td>Education</td>
                       <td>:</td>
-                      <td>Masters</td>
+                      <td>{job.education}</td>
                     </tr>
 
                     <tr>
                       <td>Experience</td>
                       <td>:</td>
-                      <td>2 Years</td>
+                      <td>{job.experience}</td>
                     </tr>
 
                     <tr>
                       <td>Company</td>
                       <td>:</td>
-                      <td>Tech</td>
+                      <td>{job.company}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -89,6 +107,7 @@ const JobDetails = () => {
 
               <div className="job-location">
                 <h4 className="mt-5 mb-4">Job Location</h4>
+                <div id="job-map" style={{ height: 520, width: "100%" }}/>
               </div>
             </div>
           </div>
@@ -98,13 +117,13 @@ const JobDetails = () => {
               <h4 className="my-4">More Details</h4>
               <hr />
               <h5>Email Address:</h5>
-              <p>test@gmail.com</p>
+              <p>{job.email}</p>
 
               <h5>Job Posted:</h5>
-              <p>2 months ago</p>
+              <p>{moment.utc(job.createdAt).local().startOf('seconds').fromNow()}</p>
 
               <h5>Last Date:</h5>
-              <p>15-2-2022</p>
+              <p>{job.lastDate.substring(0,10)}</p>
             </div>
 
             <div className="mt-5 p-0">

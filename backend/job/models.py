@@ -27,7 +27,8 @@ class Industry(models.TextChoices):
     IT = 'Information Technology'
     Banking = 'Banking'
     Education = 'Education/Training'
-    Telecommunication = 'Telecommunication'
+    Telecommunication = 'Telecommunication',
+    Heathcare = 'Healthcare',
     Others = 'Others'
 
 class Experience(models.TextChoices):
