@@ -1,29 +1,24 @@
 # Project Title
 
-Simple overview of use/purpose.
+Job Board Web App Based ON Django & Next.js
 
 ## Description
+This a full stack web app that allows user to browser, search and filter job postings as well as post and manage their own job openings. The back end is built by `Django` and `Django Rest Framework`, and the frontend is based on `Next.js`.
 
-An in-depth paragraph about your project and overview of use.
-
-## Getting Started
-
-### Dependencies
-
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+```
+// install packages for the front end
+npm install
+```
+
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+* How to run the backend
 ```
-code blocks for commands
+
 ```
 
 ## Help
