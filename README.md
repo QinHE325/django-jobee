@@ -6,10 +6,10 @@ Job Board Web App Based ON Django & Next.js
 This a full stack web app that allows user to browser, search and filter job postings as well as post and manage their own job openings. The back end is built by `Django` and `Django Rest Framework`, and the frontend is based on `Next.js`.
 
 
-### Installing
-
+### Installing 
+* How to install packages for the frontend
 ```
-// install packages for the front end
+cd frontend
 npm install
 ```
 
