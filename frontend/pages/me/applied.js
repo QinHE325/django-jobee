@@ -1,12 +1,13 @@
+import axios from "axios";
 import Layout from "../../components/layout/Layout";
-import UpdateProfile from "../../components/user/UpdateProfile";
+import JobsApplied from "../../components/job/JobsApplied";
 
 import { isAuthenticatedUser } from "../../utils/isAuthenticated";
 
-export default function UpdateProfilePage({ access_token }) {
+export default function JobsAppliedPage({ jobs }) {
   return (
-    <Layout title="Update User Profile">
-      <UpdateProfile access_token={access_token} />
+    <Layout title="Jobs Applied">
+      <JobsApplied jobs={jobs} />
     </Layout>
   );
 }
@@ -25,9 +26,17 @@ export async function getServerSideProps({ req }) {
     };
   }
 
+  const res = await axios.get(`${process.env.API_URL}/api/me/jobs/applied/`, {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  });
+
+  const jobs = res.data;
+
   return {
     props: {
-      access_token,
+      jobs,
     },
   };
 }

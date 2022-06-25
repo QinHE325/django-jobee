@@ -1,9 +1,9 @@
 import React from "react";
-import Link from 'next/link'
+import Link from "next/link";
 
 import moment from "moment";
 
-const JobItem = ({job}) => {
+const JobItem = ({ job }) => {
   return (
     <Link href={`/jobs/${job.id}`}>
       <a className="job-listing">
@@ -12,7 +12,7 @@ const JobItem = ({job}) => {
             <h4 className="job-listing-company">{job.company}</h4>
             <h3 className="job-listing-title">{job.title}</h3>
             <p className="job-listing-text">
-              {job.description.substr(0,200)}...
+              {job.description.substring(0, 200)}...
             </p>
           </div>
 
@@ -29,10 +29,12 @@ const JobItem = ({job}) => {
               <i aria-hidden className="fas fa-briefcase"></i> {job.jobType}
             </li>
             <li>
-              <i aria-hidden className="fas fa-money-check-alt"></i>${job.salary}
+              <i aria-hidden className="fas fa-money-check-alt"></i>$
+              {job.salary}
             </li>
             <li>
-              <i aria-hidden className="far fa-clock"></i> {moment.utc(job.createdAt).local().startOf('seconds').fromNow()}
+              <i aria-hidden className="far fa-clock"></i>
+              {moment.utc(job.createdAt).local().startOf("seconds").fromNow()}
             </li>
           </ul>
         </div>

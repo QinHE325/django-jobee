@@ -1,12 +1,12 @@
-import Layout from "../../components/layout/Layout";
-import UpdateProfile from "../../components/user/UpdateProfile";
+import Layout from "../../../components/layout/Layout";
+import NewJob from "../../../components/job/NewJob";
 
-import { isAuthenticatedUser } from "../../utils/isAuthenticated";
+import { isAuthenticatedUser } from "../../../utils/isAuthenticated";
 
-export default function UpdateProfilePage({ access_token }) {
+export default function NewJobPage({ access_token }) {
   return (
-    <Layout title="Update User Profile">
-      <UpdateProfile access_token={access_token} />
+    <Layout title="Post a new Job">
+      <NewJob access_token={access_token} />
     </Layout>
   );
 }
